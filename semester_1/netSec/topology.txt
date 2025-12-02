@@ -1,0 +1,68 @@
+🎯 COMPLETE NETWORK TOPOLOGY
+Source Host:
+192.168.7.5 (user2355 - your workstation)
+
+Local Subnet (192.168.7.0/24):
+192.168.7.1 - Primary Gateway
+
+192.168.7.2 - SMB File Server (ports 139, 445)
+
+192.168.7.3 - Secret Service (UDP port 31195)
+
+192.168.7.4 - Custom Service (TCP port 2345)
+
+192.168.7.5 - Your Machine
+
+Key Routing Paths:
+To Backend Services (10.120.10.0/24):
+
+text
+192.168.7.5 → 192.168.7.1 → 10.0.2.2 → 10.120.10.x
+Backend hosts:
+
+10.120.10.1 (gateway)
+
+10.120.10.2 (DNS - port 53)
+
+10.120.10.8, .12, .21 (SSH servers)
+
+10.120.10.55 (Web/API - ports 22, 6666, 8080)
+
+10.120.10.120 (Database - ports 22, 80, 3306)
+
+To Extended Networks (WiFi, Staff, PXE):
+
+text
+192.168.7.5 → 192.168.7.1 → 10.0.2.2 → 163.173.170.2 → target
+192.168.50.1 (eleveswf-gw - WiFi Students)
+
+192.168.60.1
+
+192.168.69.1 (pxe-gw)
+
+192.168.70.1 (personnel-gw - Staff)
+
+192.168.90.1
+
+192.168.124.1
+
+Direct Campus Gateway Access (1 hop):
+
+192.168.10.1 (eleves-gw - Students)
+
+192.168.20.1 (impr-gw - Printers)
+
+192.168.30.1 (visiteur-gw - Visitors)
+
+192.168.40.1 (guchewf-gw)
+
+40+ other 192.168.x.1 gateways
+
+Summary:
+60 unique network nodes discovered
+
+21 unique routing links
+
+49 distinct subnets identified
+
+12 named gateways (with DNS hostnames)

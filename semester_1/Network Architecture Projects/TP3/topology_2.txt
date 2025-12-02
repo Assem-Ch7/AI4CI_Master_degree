@@ -1,0 +1,36 @@
+install n0 bus0 eth0
+install n1 bus0 eth0
+install n2 bus1 eth0
+install n3 bus7 eth0
+install n4 bus7 eth0
+install n5 bus8 eth0
+install n6 bus8 eth0
+install n7 bus5 eth0
+install n8 bus5 eth0
+install n9 bus6 eth0
+install n10 bus6 eth0
+
+install r11 bus0 eth0
+install r11 bus1 eth1
+install r11 bus3 eth2
+
+install r12 bus1 eth0
+install r12 bus4 eth1
+
+install r13 bus4 eth0
+install r13 bus5 eth1
+install r13 bus6 eth2
+
+install r14 bus4 eth0
+install r14 bus7 eth1
+install r14 bus8 eth2
+
+install r15 bus7 eth0
+install r15 bus9 eth1
+
+install n11 bus9 eth0
+install n12 bus9 eth0
+
+install internet bus3 eth0
+
+

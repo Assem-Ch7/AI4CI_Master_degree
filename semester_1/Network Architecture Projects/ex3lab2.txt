@@ -1,0 +1,99 @@
+Understanding the 65 kB TCP Congestion Window Limit in High-Speed Networks
+Let's break it down step by step so it makes sense! You don't need advanced math, just follow the logic below.
+
+What is the congestion window (CWND)?
+TCP uses a “congestion window” (CWND) to decide how many bytes of data can be sent on the network before waiting for acknowledgments (ACKs).
+
+It’s like a bucket: You can put up to CWND worth of data “in the pipe” before you must wait for the bucket to drain a little (not get ahead of the network).​
+
+What happens with a 65 kB limit?
+Old TCP standards set the maximum CWND to about 65,000 bytes (65 kB).
+
+If you try to send a lot more, TCP won’t let you; it caps the "data in flight" to this value.
+
+The Problem in a Modern, Fast, Long-Distance Network
+Let’s use your case:
+
+Bandwidth: 155.5 Mb/s (very fast)
+
+Distance: 2000 km
+
+Propagation speed: 200,000 km/s
+
+First, what’s the delay?
+
+It takes time for data to travel. Sending data from France to Turkey, for example, even at the speed of light, there’s a delay from the length of the path. This delay (RTT) is:
+
+RTT
+=
+2
+×
+2000
+200,000
+=
+0.02
+ seconds
+=
+20
+ ms
+RTT= 
+200,000
+2×2000
+ =0.02 seconds=20 ms
+How much data can 'fit in the network' during that round trip?
+
+This is called the bandwidth-delay product (BDP).
+
+For this network: 155.5 Mb/s * 0.02 s = 3.11 Mbits = 388,750 bytes ≈ 380 kB
+
+In plain words: At full speed, the network is "hungry" enough to handle 380 kB of data in flight.
+
+But the window only allows 65 kB.
+
+That means you can only use about 1/5 of the network’s capacity. Most of the time, the sender is waiting, unable to "fill the pipe."
+
+Actual throughput you get:
+
+Throughput
+=
+CWND
+RTT
+=
+65,536
+ bytes
+×
+8
+0.02
+ s
+=
+26.2
+ Mbps
+Throughput= 
+RTT
+CWND
+ = 
+0.02 s
+65,536 bytes×8
+ =26.2 Mbps
+The link can do 155.5 Mbps, but you're getting only ~26 Mbps. The rest is wasted!
+
+Why does this matter?
+If you try to send large files or stream lots of data, the network will be mostly empty—you’re waiting, not sending. This is a serious performance bottleneck for high-speed, long-distance networks (like national backbones or connections between data centers).
+
+How to solve this?
+1. Use Window Scaling (RFC 1323):
+
+Modern TCP adds a "scaling factor" to make the window way bigger (up to 1 GB or more), so the system can actually use the full network capacity.
+
+Most modern systems support this, but it needs to be enabled on both ends.
+
+2. Tune socket/buffer sizes:
+
+Make sure the operating system and applications ask for large enough buffers.
+
+3. If possible, lower RTT or upgrade network hardware:
+
+Not realistic for long distances, but helps where possible!
+
+Summary in One Sentence:
+If your congestion window is too small for the network's speed and delay, most of the network goes unused. Window scaling and proper configuration fix this for modern high-speed networks.

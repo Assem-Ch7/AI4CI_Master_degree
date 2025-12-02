@@ -1,0 +1,12 @@
+NEtwork Security Lab
+
+1.Introduction for the use case with more details
+	definition
+2.the problem statement attack model and analyse how the module have an impact on the use case
+	attack modeule analyse and what is the impact
+3.brief of the art to present what other has done
+	discuss what others propose
+4.(impotant last part) what is remaining from the problem: our research start here propuse certain solution for the main problem
+	justify what left
+
+note: to justify the problem we need atleast 15 sitations

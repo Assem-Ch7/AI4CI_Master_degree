@@ -1,0 +1,126 @@
+n0
+ifconfig eth0 203.50.60.130 netmask 255.255.255.224
+route add -net 203.50.60.128
+route add default gw 203.50.60.129
+
+n1
+ifconfig eth0 203.50.60.131 netmask 255.255.255.224
+route add -net 203.50.60.128
+route add default gw 203.50.60.129
+
+n2
+ifconfig eth0 203.50.60.70 netmask 255.255.255.224
+route add -net 203.50.60.64
+route add default gw 203.50.60.65
+
+r11
+ifconfig eth0 203.50.60.129 netmask 255.255.255.224
+ifconfig eth1 203.50.60.65 netmask 255.255.255.224
+ifconfig eth2 195.85.10.50 netmask 255.255.255.0
+route add -net 203.50.60.128
+route add -net 203.50.60.64
+route add -net 195.85.10.0
+route add -net 189.89.0.0 netmask 255.255.0.0 gw 203.50.60.66
+route add default gw 195.85.10.51
+
+r12
+ifconfig eth0 203.50.60.66 netmask 255.255.255.224
+route add -net 203.50.60.64
+route add default gw 203.50.60.65
+
+internet
+ifconfig eth0 195.85.10.51 netmask 255.255.255.0
+route add -net 195.85.10.0
+route add -net 203.50.60.128 netmask 255.255.255.224 gw 195.85.10.50
+route add -net 203.50.60.64 netmask 255.255.255.224 gw 195.85.10.50
+route add -net 189.89.0.0 netmask 255.255.0.0 gw 195.85.10.50
+
+r12
+ifconfig eth1 189.89.0.1 netmask 255.255.255.248
+route add -net 189.89.0.0
+route add -net 189.89.0.8 netmask 255.255.255.248 gw 189.89.0.3
+route add -net 189.89.0.16 netmask 255.255.255.248 gw 189.89.0.3
+route add -net 189.89.0.24 netmask 255.255.255.248 gw 189.89.0.2
+route add -net 189.89.0.32 netmask 255.255.255.224 gw 189.89.0.2
+route add -net 189.89.0.64 netmask 255.255.255.224 gw 189.89.0.2
+
+r13
+ifconfig eth0 189.89.0.3 netmask 255.255.255.248
+ifconfig eth1 189.89.0.9 netmask 255.255.255.248
+ifconfig eth2 189.89.0.17 netmask 255.255.255.248
+route add -net 189.89.0.0
+route add -net 189.89.0.8
+route add -net 189.89.0.16
+route add -net 189.89.0.24 netmask 255.255.255.248 gw 189.89.0.2
+route add -net 189.89.0.32 netmask 255.255.255.224 gw 189.89.0.2
+route add -net 189.89.0.64 netmask 255.255.255.224 gw 189.89.0.2
+route add default gw 189.89.0.1
+
+r14
+ifconfig eth0 189.89.0.2 netmask 255.255.255.248
+ifconfig eth1 189.89.0.25 netmask 255.255.255.248
+ifconfig eth2 189.89.0.33 netmask 255.255.255.224
+route add -net 189.89.0.0
+route add -net 189.89.0.24
+route add -net 189.89.0.32 netmask 255.255.255.224
+route add -net 189.89.0.8 netmask 255.255.255.248 gw 189.89.0.3
+route add -net 189.89.0.16 netmask 255.255.255.248 gw 189.89.0.3
+route add -net 189.89.0.64 netmask 255.255.255.224 gw 189.89.0.33
+route add default gw 189.89.0.1
+
+n7
+ifconfig eth0 189.89.0.10 netmask 255.255.255.248
+route add -net 189.89.0.8
+route add default gw 189.89.0.9
+
+n8
+ifconfig eth0 189.89.0.11 netmask 255.255.255.248
+route add -net 189.89.0.8
+route add default gw 189.89.0.9
+
+n9
+ifconfig eth0 189.89.0.18 netmask 255.255.255.248
+route add -net 189.89.0.16
+route add default gw 189.89.0.17
+
+n10
+ifconfig eth0 189.89.0.19 netmask 255.255.255.248
+route add -net 189.89.0.16
+route add default gw 189.89.0.17
+
+n5
+ifconfig eth0 189.89.0.26 netmask 255.255.255.248
+route add -net 189.89.0.24
+route add default gw 189.89.0.25
+
+n6
+ifconfig eth0 189.89.0.27 netmask 255.255.255.248
+route add -net 189.89.0.24
+route add default gw 189.89.0.25
+
+n3
+ifconfig eth0 189.89.0.34 netmask 255.255.255.224
+route add -net 189.89.0.32 netmask 255.255.255.224
+route add default gw 189.89.0.33
+
+n4
+ifconfig eth0 189.89.0.35 netmask 255.255.255.224
+route add -net 189.89.0.32 netmask 255.255.255.224
+route add default gw 189.89.0.33
+
+r15
+ifconfig eth0 189.89.0.33 netmask 255.255.255.224
+ifconfig eth1 189.89.0.65 netmask 255.255.255.224
+route add -net 189.89.0.32 netmask 255.255.255.224
+route add -net 189.89.0.64 netmask 255.255.255.224
+route add default gw 189.89.0.33
+
+n11
+ifconfig eth0 189.89.0.66 netmask 255.255.255.224
+route add -net 189.89.0.64 netmask 255.255.255.224
+route add default gw 189.89.0.65
+
+n12
+ifconfig eth0 189.89.0.67 netmask 255.255.255.224
+route add -net 189.89.0.64 netmask 255.255.255.224
+route add default gw 189.89.0.65

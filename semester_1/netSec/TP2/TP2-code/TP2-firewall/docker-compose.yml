@@ -1,0 +1,205 @@
+services:
+
+  router:
+    image: jackops93/netsetalpine:v1.0.0
+    hostname: router 
+    command: sh -c "sysctl -w net.ipv4.ip_forward=1 && sleep infinity"
+    privileged: true
+    volumes:
+        - ./scripts:/scripts
+        - ./exports:/exports
+    networks:
+      clientA:
+        ipv4_address: 10.10.0.2
+      clientB:
+        ipv4_address: 10.11.0.2
+      cloudA:
+        ipv4_address: 10.12.0.2
+      cloudB:
+        ipv4_address: 10.13.0.2
+
+# Gateways
+
+  gsiteA:
+    image: jackops93/netsetalpine:v1.0.0
+    hostname: gsiteA
+    command: sh -c "sysctl -w net.ipv4.ip_forward=1 && ip route add 10.0.0.0/8 via 10.10.0.2 && sleep infinity"
+    volumes:
+        - ./scripts:/scripts
+        - ./exports:/exports
+    privileged: true
+    networks:
+      clientA:
+        ipv4_address: 10.10.0.3
+
+  gsiteB:
+    image: jackops93/netsetalpine:v1.0.0
+    hostname: gsiteB
+    command: sh -c "sysctl -w net.ipv4.ip_forward=1 && ip route add 10.0.0.0/8 via 10.11.0.2 &&sleep infinity"
+    volumes:
+        - ./scripts:/scripts
+        - ./exports:/exports
+    privileged: true
+    networks:
+      clientB:
+        ipv4_address: 10.11.0.3
+
+  gwcloudA:
+    image: jackops93/netsetalpine:v1.0.0
+    hostname: gwcloudA
+    command: sh -c "sysctl -w net.ipv4.ip_forward=1 && ip route add 10.0.0.0/8 via 10.12.0.2 && sleep infinity"
+    volumes:
+        - ./scripts:/scripts
+        - ./exports:/exports
+    privileged: true
+    networks:
+      cloudA:
+        ipv4_address: 10.12.0.3
+
+  gwcloudB:
+    image: jackops93/netsetalpine:v1.0.0
+    hostname: gwcloudB
+    command: sh -c "sysctl -w net.ipv4.ip_forward=1 && ip route add 10.0.0.0/8 via 10.13.0.2 && sleep infinity"
+    volumes:
+        - ./scripts:/scripts
+        - ./exports:/exports
+    privileged: true
+    networks:
+      cloudB:
+        ipv4_address: 10.13.0.3
+
+# Clients
+
+  developerA: # This client is in the A client network
+      image: jackops93/netsetalpine:v1.0.0
+      hostname: developerA
+      volumes:
+        - ./scripts:/scripts
+        - ./exports:/exports
+      cap_add:
+        - NET_ADMIN
+      command: sh -c "ip route add 10.0.0.0/8 via 10.10.0.3 && sleep 1000000"
+      networks: 
+        clientA:
+          ipv4_address: 10.10.0.10
+
+  staffA: # This client is in the A client network
+      image: jackops93/netsetalpine:v1.0.0
+      hostname: staffA
+      volumes:
+        - ./scripts:/scripts
+        - ./exports:/exports
+      cap_add:
+        - NET_ADMIN
+      command: sh -c "ip route add 10.0.0.0/8 via 10.10.0.3 && sleep 1000000"
+      networks: 
+        clientA:
+          ipv4_address: 10.10.0.11
+
+  developerB: # This client is in the B client network
+      image: jackops93/netsetalpine:v1.0.0
+      hostname: developerB
+      volumes:
+        - ./scripts:/scripts
+        - ./exports:/exports
+      cap_add:
+        - NET_ADMIN
+      command: sh -c "ip route add 10.0.0.0/8 via 10.11.0.3 && sleep 1000000"
+      networks: 
+        clientB:
+          ipv4_address: 10.11.0.10
+
+  staffB: # This client is in the B client network
+      hostname: staffB
+      image: jackops93/netsetalpine:v1.0.0
+      volumes:
+        - ./scripts:/scripts
+        - ./exports:/exports
+      cap_add:
+        - NET_ADMIN
+      command: sh -c "ip route add 10.0.0.0/8 via 10.11.0.3 && sleep 1000000"
+      networks: 
+        clientB:
+          ipv4_address: 10.11.0.11
+
+# Servers
+
+  devserver: # This server is in the cloudA network
+    image: jackops93/netsecnginx:v1.0.0
+    hostname: devserver
+    networks:
+      cloudA:
+        ipv4_address: 10.12.0.20
+    volumes:
+      - ./exports:/exports
+      - ./scripts:/scripts
+    cap_add:
+      - NET_ADMIN
+    entrypoint: sh -c "ip route add 10.0.0.0/8 via 10.12.0.3 && exec nginx -g 'daemon off;'"
+
+  productionserver:  # This server is in the cloudA network
+    image: jackops93/netsecnginx:v1.0.0
+    hostname: productionserver
+    networks:
+      cloudA:
+        ipv4_address: 10.12.0.30
+    entrypoint: sh -c "ip route add 10.0.0.0/8 via 10.12.0.3 && exec nginx -g 'daemon off;'"
+    cap_add:
+      - NET_ADMIN
+  secureserver:  # This server is in the cloudB network
+    image: registry.gitlab.com/dasskelett/nginx-quic-docker/nginx-quic:latest
+    restart: always
+
+    networks:
+      cloudB:
+        ipv4_address: 10.13.0.40
+    cap_add:
+      - NET_ADMIN
+    entrypoint: >
+      sh -c '
+        ip route add 10.0.0.0/8 via 10.13.0.3;
+        mkdir -p /etc/nginx;
+        if [ ! -f /etc/nginx/cert.pem ] || [ ! -f /etc/nginx/cert.key ]; then
+          echo "Generating self-signed certificate...";
+          openssl req -x509 -newkey rsa:2048 \
+            -keyout /etc/nginx/cert.key \
+            -out /etc/nginx/cert.pem \
+            -days 365 -nodes \
+            -subj "/CN=secureserver";
+        fi;
+        exec nginx -g "daemon off;";
+      '
+
+
+networks:
+  clientA: 
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.0.0/16
+          gateway: 10.10.0.1
+
+  clientB:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.11.0.0/16
+          gateway: 10.11.0.1
+
+  cloudA: 
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.12.0.0/16
+          gateway: 10.12.0.1
+
+  cloudB: 
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.13.0.0/16
+          gateway: 10.13.0.1

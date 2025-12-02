@@ -1,0 +1,103 @@
+Documentation: NS2 and NAM GUI Setup on Windows 11 with WSL 2 and Docker
+Introduction
+This documentation provides a step-by-step guide to run the Network Simulator 2 (NS2) and visualize the simulation results using the Network Animator (NAM) GUI on a Windows 11 machine. The setup uses WSL 2 for Linux compatibility, Docker for containerization, and VcXsrv for X11 forwarding to display the GUI.
+
+Prerequisites
+Windows 11 installed with WSL 2 support.
+
+Linux distribution installed in WSL 2 (e.g., Ubuntu).
+
+Docker Desktop installed and integrated with WSL 2.
+
+VcXsrv installed on Windows for X server.
+
+Step 1: Install and Configure WSL 2
+Enable WSL 2
+
+Open PowerShell as Administrator and run:
+
+powershell
+wsl --install
+This installs WSL and sets WSL 2 as the default version. Restart your system if prompted.
+
+Install a Linux distro
+
+From Microsoft Store, install Ubuntu or your preferred Linux distribution. Launch it once and complete initial setup.
+
+Step 2: Install Docker Desktop with WSL 2 Integration
+Download and install Docker Desktop from Docker official site.
+
+During installation, ensure WSL 2 integration is enabled.
+
+After installation, open Docker Desktop, navigate to Settings → Resources → WSL Integration, and enable integration with your installed Linux distro.
+
+Restart Docker Desktop and your WSL terminal.
+
+Verify Docker is working in WSL:
+
+bash
+docker version
+Step 3: Install and Configure VcXsrv on Windows
+Download and install VcXsrv from SourceForge.
+
+Launch XLaunch (comes with VcXsrv) and set the following options:
+
+Display mode: Multiple windows
+
+Display number: 0
+
+Check Disable access control to allow external connections
+
+Enable clipboard integration as needed
+
+Finish the setup to start VcXsrv
+
+Ensure VcXsrv icon appears in the system tray, confirming it is running.
+
+Step 4: Allow X Server Access from WSL/Docker
+Open your WSL terminal or Windows Command Prompt and run:
+
+bash
+xhost +local:root
+This allows local clients such as Docker containers to connect to your Windows X server.
+
+Step 5: Download and Run NS2 Docker Container
+Pull the NS2 Docker image with:
+
+bash
+docker pull npranav10/ns2
+Run the Docker container, mounting the X11 socket and passing DISPLAY environment variable:
+
+bash
+docker run -it \
+  -e DISPLAY=unix$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  npranav10/ns2 bash
+Step 6: Run NS2 and NAM GUI Inside Docker
+Inside the Docker container shell, run your TCL simulation script, for example:
+
+bash
+ns test.tcl
+After simulation completes, run NAM to open the graphical animation:
+
+bash
+nam out.nam
+The NAM GUI window should open on your Windows desktop using VcXsrv.
+
+Additional Notes
+To persist files and environment between container sessions, use a container name in docker run and restart the same container with:
+
+bash
+docker start -ai <container-name>
+If you have issues displaying GUI, verify:
+
+VcXsrv is running with "Disable access control"
+
+Windows firewall or antivirus allows VcXsrv connections
+
+DISPLAY variable is set correctly in the container and WSL
+
+Docker integration with WSL is enabled correctly
+
+Summary
+This guide shows how to set up a robust development environment running NS2 simulations and visualizing with NAM GUI on Windows 11 through WSL 2, Docker, and X11 forwarding with VcXsrv.

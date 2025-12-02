@@ -1,0 +1,21 @@
+
+
+Does the server know the identity of the client?
+
+Yes. The server recognizes the client because it verified the public key in authorized_keys matches the private key you used.
+
+How does the client know that the server is legitimate?
+
+When you first connect, SSH checks the server's host key fingerprint. You can verify this fingerprint matches what the admin provides (or trust it after first connection).
+
+What are the possible vulnerabilities?
+
+Private key compromise (if someone steals your id_rsa)
+
+Weak key (if not 4096-bit RSA)
+
+Unprotected private key (no passphrase)
+
+Man-in-the-middle attack (if you don't verify host key fingerprint first time)
+
+Server misconfiguration (wrong permissions on authorized_keys)
