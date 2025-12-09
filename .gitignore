@@ -1,0 +1,17 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore Mac/Windows system files
+.DS_Store
+Thumbs.db
+
+# Ignore virtual environments (very important!)
+env/
+venv/
+.env
+
+# Ignore large datasets (GitHub has a 100MB limit)
+*.csv
+*.zip
+*.tar.gz
