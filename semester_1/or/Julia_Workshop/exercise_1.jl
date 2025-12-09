@@ -17,7 +17,7 @@ m = Model(GLPK.Optimizer);
 @constraint(m, x3<= 1);
 @constraint(m, x4<= 1);
 @constraint(m, x5<= 1);
-optimize!(m);
+ optimize!(m);
 println("MAX:", objective_value(m));
 println("X1 :", value.(x1));
 println("X2 :", value.(x2));
