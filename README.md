@@ -14,17 +14,17 @@ This repository documents my academic journey through the **AI4CI Master's progr
 
 | Module | Key Technologies | Description |
 | :--- | :--- | :--- |
-| **[AI & Machine Learning](./S1_AIML_Connected_Systems)** | Python, Scikit-Learn | Supervised learning applied to network traffic and sensor data. |
-| **[Network Architecture](./S1_Network_Architecture)** | TCP/IP, Python Sockets | Designing and analyzing protocols for connected systems. |
-| **[Signals & Systems](./S1_Signals_and_Systems)** | Python (NumPy/SciPy) | Digital Signal Processing (DSP) for industrial sensor streams. |
-| **[Operations Research](./S1_Operations_Research)** | Linear Programming | Optimization algorithms for resource management. |
-| **[Advanced Python](./S1_Advanced_Python)** | Python, Pandas, APIs | Software engineering best practices for industrial AI. |
-| **[Performance Eval](./S1_Performance_Evaluation)** | Queueing Theory | Modeling system performance and bottlenecks. |
+| **[AI & Machine Learning](./S1_AIML_Connected_Systems)** | Python, Scikit-Learn | Machine Learning applied to connected systems, sensor data, and time-series analysis. |
+| **[Network Architecture](./S1_Network_Architecture)** | TCP/IP, Python Sockets | Design and analysis of advanced network protocols and architectures. |
+| **[Network Security](./S1_Network_Security)** | Cryptography, Firewalls | Securing network infrastructure and analyzing cyber threats. |
+| **[Operations Research](./S1_Operations_Research)** | Linear Programming, Graphs | Optimization algorithms (Simplex, Shortest Path) for resource management and logistics. |
+| **[OSCA](./S1_OSCA_Operating_Systems)** | C, Linux System Calls | **Operating Systems & Computer Architecture**: Process management, memory, and concurrency. |
+| **[Refresh C & Bash](./S1_C_Bash_Refresh)** | C, Bash Scripting | Low-level programming and automation for industrial environments. |
 
 ## 🛠️ Tech Stack
-* **Languages:** Python, C++, Bash, MATLAB
-* **AI/ML:** PyTorch, Scikit-Learn, Pandas
-* **Industrial:** IoT Protocols, Network Analysis, Signal Processing
+* **Languages:** Python, C, Bash
+* **AI/ML:** PyTorch, Scikit-Learn, Pandas, SciPy
+* **Systems:** Linux, TCP/IP Stack, Operating System Kernels
 
 ---
 *Note: This repository is updated weekly as I complete new modules and projects.*
